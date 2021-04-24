@@ -1,0 +1,12 @@
+{"mtree_type": "mes_simulation_description",
+   "name":"Basic random vs. cooperation Run",
+   "id": "1",
+   "environment": "cooperation_environment.CooperationEnvironment",
+   "institution": "cooperation_institution.CooperationInstitution",
+   "number_of_runs": 1,
+   "agents": [{"agent_name": "cooperation_simple_agent.CooperationSimpleAgent", "number": 1},
+      {"agent_name": "cooperation_random_agent.CooperationRandomAgent", "number": 1}],
+   "properties": {
+    }
+ }
+

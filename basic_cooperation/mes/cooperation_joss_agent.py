@@ -8,6 +8,7 @@ import random
 
 @directive_enabled_class
 class CooperationJossAgent(Agent):
+    #Joss always defects after a defection, but only cooperates after cooperation 90% of the time
     def __init__(self):
         self.institution = None
         self.last_reward = 0

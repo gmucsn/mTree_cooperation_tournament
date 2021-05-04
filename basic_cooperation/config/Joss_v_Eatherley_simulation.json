@@ -1,10 +1,10 @@
 {"mtree_type": "mes_simulation_description",
-    "name":"Joss Vs. Tit for Tat Cooperation Run",
+    "name":"Joss Vs. Eatherley Cooperation Run",
     "id": "1",
     "environment": "cooperation_environment.CooperationEnvironment",
     "institution": "cooperation_institution.CooperationInstitution",
     "number_of_runs": 1,
-    "agents": [{"agent_name": "cooperation_tit_for_tat_agent.CooperationTitforTatAgent", "number": 1}, 
+    "agents": [{"agent_name": "cooperation_eatherley_agent.CooperationEatherleyAgent", "number": 1}, 
         {"agent_name": "cooperation_joss_agent.CooperationJossAgent", "number": 1}],
     "properties": {
      }

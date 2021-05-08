@@ -28,7 +28,7 @@ class CooperationJossAgent(Agent):
         self.outcome_history.append(message.get_payload()["outcome"])
         self.total_reward += message.get_payload()["reward"]
         self.last_reward = message.get_payload()["reward"]
-        self.log_data("Agent Total Reward now: " + str(self.total_reward))
+        self.log_data("Agent (joss) Total Reward now: " + str(self.total_reward))
 
 
     @directive_decorator("decision time", message_schema=["value"], message_callback="make_bid")

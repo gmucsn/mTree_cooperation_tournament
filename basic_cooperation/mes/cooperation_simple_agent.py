@@ -23,7 +23,7 @@ class CooperationSimpleAgent(Agent):
         #status = message.get_payload()["status"]
         self.log_data("Outcome: " + str(message.get_payload()))
         self.total_reward += message.get_payload()["reward"]
-        self.log_data("Agent Total Reward now: " + str(self.total_reward))
+        self.log_data("Agent (simple) Total Reward now: " + str(self.total_reward))
 
 
     @directive_decorator("decision time", message_schema=["value"], message_callback="make_bid")

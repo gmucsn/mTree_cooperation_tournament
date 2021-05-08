@@ -29,7 +29,7 @@ class CooperationEatherleyAgent(Agent):
         self.outcome_history.append(message.get_payload()["outcome"])
         self.total_reward += message.get_payload()["reward"]
         self.last_reward = message.get_payload()["reward"]
-        self.log_data("Agent Total Reward now: " + str(self.total_reward))
+        self.log_data("Agent (eatherley) Total Reward now: " + str(self.total_reward))
         if self.last_reward == 1 or self.last_reward == 0:
             self.enemy_defections += 1
 

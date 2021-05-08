@@ -7,15 +7,16 @@ import random
 
 
 @directive_enabled_class
-class CooperationFriedmanAgent(Agent):
-    #Friedman cooperates until a defection, then defects for the rest of the game
+class CooperationFeldAgent(Agent):
+    #always defects after defection, cooperates after cooperation 100% of the time at the begining, but only 50% by the end
     def __init__(self):
         self.institution = None
         self.last_reward = 0
         self.total_reward = 0
         self.choice_history = []
         self.outcome_history = []
-        self.Defection = 0
+        self.First_round = 1
+        self.defect_chance = 0
 
     @directive_decorator("init_agent")
     def init_agent(self, message: Message):
@@ -28,21 +29,25 @@ class CooperationFriedmanAgent(Agent):
         self.outcome_history.append(message.get_payload()["outcome"])
         self.total_reward += message.get_payload()["reward"]
         self.last_reward = message.get_payload()["reward"]
-        self.log_data("Agent (friedman) Total Reward now: " + str(self.total_reward))
+        self.log_data("Agent (feld) Total Reward now: " + str(self.total_reward))
 
 
     @directive_decorator("decision time", message_schema=["value"], message_callback="make_bid")
     def item_for_bidding(self, message: Message):
         self.institution = message.get_sender()
         self.log_message("Agent received request for decision")
-        if self.Defection == 1:
-            action_decision = "defect"
+        if self.First_round == 1:
+            action_decision = "cooperate"
+            self.First_round = 0
         else:
-            if self.last_reward == 0:
+            if self.last_reward == 1 or self.last_reward == 0:
                 action_decision = "defect"
-                self.defection = 1
             else:
-                action_decision = "cooperate"
+                if random.choice(range(1,10000)) <= self.defect_chance:
+                    action_decision = "defect"
+                else:
+                    action_decision = "cooperate"
+        self.defect_chance += 25
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("decision")

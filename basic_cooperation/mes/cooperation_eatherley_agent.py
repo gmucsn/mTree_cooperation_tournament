@@ -43,7 +43,7 @@ class CooperationEatherleyAgent(Agent):
             self.First_round = 0
         else:
             if self.last_reward == 1 or self.last_reward == 0:
-                if random.choice(range(1,len(self.outcome_history))) <= self.enemy_defections:
+                if random.choice(range(1,(len(self.outcome_history) + 1))) <= self.enemy_defections:
                     action_decision = "defect"
                 else:
                     action_decision = "cooperate"

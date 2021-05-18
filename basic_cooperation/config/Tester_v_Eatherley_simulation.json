@@ -1,0 +1,11 @@
+{"mtree_type": "mes_simulation_description",
+    "name":"Tester Vs. Eatherley Cooperation Run",
+    "id": "1",
+    "environment": "cooperation_environment.CooperationEnvironment",
+    "institution": "cooperation_institution.CooperationInstitution",
+    "number_of_runs": 1,
+    "agents": [{"agent_name": "cooperation_eatherley_agent.CooperationEatherleyAgent", "number": 1}, 
+        {"agent_name": "cooperation_tester_agent.CooperationTesterAgent", "number": 1}],
+    "properties": {
+     }
+  }

@@ -43,7 +43,7 @@ class CooperationFeldAgent(Agent):
             if self.last_reward == 1 or self.last_reward == 0:
                 action_decision = "defect"
             else:
-                if random.choice(range(1,10000)) <= self.defect_chance:
+                if random.choice(range(1,10001)) <= self.defect_chance:
                     action_decision = "defect"
                 else:
                     action_decision = "cooperate"

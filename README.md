@@ -25,11 +25,11 @@ NYDEGGER - Plays tit for tat for the first three moves, unless it is the only on
 
 TESTER - Defects on the first move. If the other player ever defects it cooperates and plays tit for tat for the rest of the game. Otherwise, it defects as much as possible while keeping the ratio of defections to total moves under .5.
 
+TRANQUILIZER - Will occasionally throw in a defection even if the other player is cooperating. Defections become more frequent if the other player cooperates, and as long as it is maintaining an average payoff of at least 2.25 points per move it will never defect twice in succession and it will not defect more than 1/4 of the time.
+
 Still need to be added:
 
 REVISED STATE TRANSITION - models the other player as a one step markov process and attempts to maximize its own long-term payoff with the assumption that the model is correct.
-
-TRANQUILIZER - Will occasionally throw in a defection even if the other player is cooperating. Defections become more frequent if the other player cooperates, and as long as it is maintaining an average payoff of at least 2.25 points per move it will never defect twice in succession and it will not defect more than 1/4 of the time. 
 
 DOWNING - This rule selects its choice to maximize its own long term expected payoff on the assumption that the other rule cooperates with a fixed probability which depends only on whether the other player cooperated or defected on the previous move. These two probabilities estimates are continuously updated as the game progresses. Initially, they are both assumed to be .5.
 

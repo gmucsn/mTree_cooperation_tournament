@@ -7,16 +7,16 @@ import random
 
 
 @directive_enabled_class
-class CooperationEatherleyAgent(Agent):
-    #Eatherley always cooperates after cooperation, but defects after defection with a propability equal to the ration of the other player's defections to total moves
+class CooperationTranquilizerAgent(Agent):
     def __init__(self):
         self.institution = None
         self.last_reward = 0
         self.total_reward = 0
         self.choice_history = []
         self.outcome_history = []
-        self.enemy_defections = 0
         self.First_round = 1
+        self.average_score = 0
+        self.defections = 0
 
     @directive_decorator("init_agent")
     def init_agent(self, message: Message):
@@ -29,9 +29,7 @@ class CooperationEatherleyAgent(Agent):
         self.outcome_history.append(message.get_payload()["outcome"])
         self.total_reward += message.get_payload()["reward"]
         self.last_reward = message.get_payload()["reward"]
-        self.log_data("Agent (eatherley) Total Reward now: " + str(self.total_reward))
-        if self.last_reward == 1 or self.last_reward == 0:
-            self.enemy_defections += 1
+        self.log_data("Agent (tranquilizer) Total Reward now: " + str(self.total_reward))
 
 
     @directive_decorator("decision time", message_schema=["value"], message_callback="make_bid")
@@ -42,13 +40,19 @@ class CooperationEatherleyAgent(Agent):
             action_decision = "cooperate"
             self.First_round = 0
         else:
-            if self.last_reward == 1 or self.last_reward == 0:
-                if random.choice(range(1,(len(self.outcome_history) + 1))) <= self.enemy_defections:
+            self.average_score = self.total_reward / len(self.outcome_history)
+            if self.average_score >= 2.25:
+                if self.choice_history[-1] == "cooperate" and (self.defections + 1) / (len(self.outcome_history) + 1) <= .25:
                     action_decision = "defect"
                 else:
                     action_decision = "cooperate"
             else:
-                action_decision = "cooperate"
+                if self.last_reward == 1 or self.last_reward == 0:
+                    action_decision = "defect"
+                else:
+                    action_decision = "cooperate"
+        if action_decision == "defect":
+            self.defections += 1
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("decision")

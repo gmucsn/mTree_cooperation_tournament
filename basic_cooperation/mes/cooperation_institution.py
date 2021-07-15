@@ -8,6 +8,10 @@ import random
 
 @directive_enabled_class
 class CooperationInstitution(Institution):
+    """
+    This class implements a simple Prisoner's dilemma institution that takes the decisions made by
+    two different agents and informs them of the results of the round.
+    """
     def __init__(self):
         self.rounds = 200
 
@@ -21,6 +25,10 @@ class CooperationInstitution(Institution):
 
     @directive_decorator("decision")
     def decision(self, message:Message):
+        """
+        This method handles the agents sending their decisions to the institution and calls the end_round
+        and next_round methods once both agents have responded (tracked using the actions_outstanding variable)
+        """
         agent_decision = message.get_payload()["decision"]
         self.actions.append((agent_decision, message.get_sender()))
         self.actions_outstanding -= 1
@@ -29,6 +37,17 @@ class CooperationInstitution(Institution):
             self.next_round()
 
     def end_round(self):
+        """
+        This method ends the round, figures out the result, and sends the results to both agents.
+
+        Message Handled:
+        - none
+
+        Message sent:
+        - "outcome", receiver = agents, 
+                    payload = {"outcome": one of four possible outcomes: mutual_cooperate, mutual_defect, sucker, exploiter,
+                                "reward": the number of points an agent earned this round}
+        """
         if self.actions[0][0] == self.actions[1][0]:
             new_message = Message()  # declare message
             new_message.set_sender(self.myAddress)  # set the sender of message to this actor
@@ -62,6 +81,17 @@ class CooperationInstitution(Institution):
 
 
     def next_round(self):
+        """
+        This method begins the next round of the simulation by reducing the number of remaining
+        rounds by 1 and reseting the actions_outstanding variable, and then sending the 
+        decision_time message to both agents.
+
+        Message Handled:
+        - none
+
+        Message sent:
+        - "decision_time", receiver = agents, payload = none
+        """
         if self.rounds > 0:
             self.log_message("Round started: " + str(self.rounds))
         
@@ -78,5 +108,15 @@ class CooperationInstitution(Institution):
         
     @directive_decorator("start_game", message_schema=["agents"], message_callback="send_agents_start")
     def start_game(self, message:Message):
+        """
+        This method gets the agent addresses and starts the game by calling the next_round method.
+
+        Message Handled:
+        - 'start_game', sender = environment,
+                    payload = {"agents": a list of the agent addresses}
+
+        Message Sent:
+        - none
+        """
         self.agents = message.get_payload()["agents"]
         self.next_round()

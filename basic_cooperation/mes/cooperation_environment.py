@@ -10,6 +10,9 @@ import random
 
 @directive_enabled_class#(expected_properties=[agent_endowment, "num_auctions"])
 class CooperationEnvironment(Environment):
+    """
+    This class implements a simple Prisoner's dilemma institution which sets up the institution and agents.
+    """
     def __init__(self):
         self.num_auctions = 10
 
@@ -19,6 +22,10 @@ class CooperationEnvironment(Environment):
         self.start_game()
 
     def start_game(self):
+        """
+        This method sends a message to the institution telling it to start the mes and tells it what
+        the agent addresses are.
+        """
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("start_game")

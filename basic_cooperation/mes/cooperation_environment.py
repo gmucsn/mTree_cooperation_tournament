@@ -14,10 +14,13 @@ class CooperationEnvironment(Environment):
     This class implements a simple Prisoner's dilemma institution which sets up the institution and agents.
     """
     def __init__(self):
-        self.num_auctions = 10
+        pass
 
     @directive_decorator("start_environment")
     def start_environment(self, message:Message):
+        """
+        This method starts the environment and calls the start_game method.
+        """
         self.log_message("Environment started")
         self.start_game()
 

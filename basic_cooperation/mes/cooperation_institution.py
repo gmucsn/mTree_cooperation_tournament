@@ -102,11 +102,11 @@ class CooperationInstitution(Institution):
             for agent in self.agents:
                 new_message = Message()  # declare message
                 new_message.set_sender(self.myAddress)  # set the sender of message to this actor
-                new_message.set_directive("decision time")
+                new_message.set_directive("decision_time")
                 self.send(agent, new_message)  # receiver_of_message, message
     
         
-    @directive_decorator("start_game", message_schema=["agents"], message_callback="send_agents_start")
+    @directive_decorator("start_game")
     def start_game(self, message:Message):
         """
         This method gets the agent addresses and starts the game by calling the next_round method.

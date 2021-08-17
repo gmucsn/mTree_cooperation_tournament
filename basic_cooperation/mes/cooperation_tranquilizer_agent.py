@@ -8,6 +8,12 @@ import random
 
 @directive_enabled_class
 class CooperationTranquilizerAgent(Agent):
+    """
+    This class implements an agent which uses the Tranquilizer strategy from Axelrod's second tournament
+    (Axelrod, 1980). This strategy will occasionally throw in a defection even if the other player is cooperating.
+    Defections become more frequent if the other player cooperates, and as long as it is maintaining an average payoff 
+    of at least 2.25 points per move it will never defect twice in succession and it will not defect more than ¼ of the time. 
+    """
     def __init__(self):
         self.institution = None
         self.last_reward = 0
@@ -24,7 +30,17 @@ class CooperationTranquilizerAgent(Agent):
 
     @directive_decorator("outcome")
     def outcome(self, message: Message):
-        #status = message.get_payload()["status"]
+        """
+        This method receives the "outcome" message and updates the agent's total rewards.
+
+        Message Handled:
+        - "outcome", sender = institution, 
+                    payload = {'outcome': one of four possible outcomes: mutual_cooperate, mutual_defect, sucker, exploiter,
+                                "reward": the number of points this agent earned the last round}
+
+        Message Sent:
+        - none
+        """
         self.log_data("Outcome: " + str(message.get_payload()))
         self.outcome_history.append(message.get_payload()["outcome"])
         self.total_reward += message.get_payload()["reward"]
@@ -32,8 +48,18 @@ class CooperationTranquilizerAgent(Agent):
         self.log_data("Agent (tranquilizer) Total Reward now: " + str(self.total_reward))
 
 
-    @directive_decorator("decision time", message_schema=["value"], message_callback="make_bid")
+    @directive_decorator("decision_time")
     def item_for_bidding(self, message: Message):
+        """
+        This method receives the decision_time message and determines which action to take using
+        the Tranquilizer strategy. 
+
+        Message Handled: 
+        - 'decision_time', sender = institution, payload = none 
+
+        Message Sent: 
+        - 'decision', receiver = institution, payload = {"decision": the decision made, either cooperate or defect}
+        """
         self.institution = message.get_sender()
         self.log_message("Agent received request for decision")
         if self.First_round == 1:

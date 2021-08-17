@@ -8,6 +8,12 @@ import random
 
 @directive_enabled_class
 class CooperationTesterAgent(Agent):
+    """
+    This class implements an agent which uses the Tester strategy from Axelrod's second tournament
+    (Axelrod, 1980). This strategy defects on the first move. If the other player ever defects it 
+    cooperates and plays tit for tat for the rest of the game. Otherwise, it defects as much as possible 
+    while keeping the ratio of defections to total moves under .5.
+    """
     def __init__(self):
         self.institution = None
         self.last_reward = 0
@@ -24,7 +30,17 @@ class CooperationTesterAgent(Agent):
 
     @directive_decorator("outcome")
     def outcome(self, message: Message):
-        #status = message.get_payload()["status"]
+        """
+        This method receives the "outcome" message and updates the agent's total rewards.
+
+        Message Handled:
+        - "outcome", sender = institution, 
+                    payload = {'outcome': one of four possible outcomes: mutual_cooperate, mutual_defect, sucker, exploiter,
+                                "reward": the number of points this agent earned the last round}
+
+        Message Sent:
+        - none
+        """
         self.log_data("Outcome: " + str(message.get_payload()))
         self.outcome_history.append(message.get_payload()["outcome"])
         self.total_reward += message.get_payload()["reward"]
@@ -34,10 +50,18 @@ class CooperationTesterAgent(Agent):
             self.state = 1
         
         
-
-
-    @directive_decorator("decision time", message_schema=["value"], message_callback="make_bid")
+    @directive_decorator("decision_time")
     def item_for_bidding(self, message: Message):
+        """
+        This method receives the decision_time message and determines which action to take using
+        the Tester strategy. 
+
+        Message Handled: 
+        - 'decision_time', sender = institution, payload = none 
+
+        Message Sent: 
+        - 'decision', receiver = institution, payload = {"decision": the decision made, either cooperate or defect}
+        """
         self.institution = message.get_sender()
         self.log_message("Agent received request for decision")
         if self.turn_one == 1:

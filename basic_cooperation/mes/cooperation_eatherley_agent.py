@@ -53,7 +53,7 @@ class CooperationEatherleyAgent(Agent):
     def item_for_bidding(self, message: Message):
         """
         This method receives the decision_time message and determines which action to take using
-        the Champion strategy. 
+        the Eatherley strategy. 
 
         Message Handled: 
         - 'decision_time', sender = institution, payload = none 

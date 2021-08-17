@@ -8,10 +8,16 @@ import random
 
 @directive_enabled_class
 class CooperationNydeggerAgent(Agent):
-    #Plays tit for tat for the first three moves, unless it is the only one to cooperate on the first move and the only one to defect on the second move, then it defects on the third move. 
-    #After the third move, its choice is determined from the 3 preceding outcomes in the following manner. Let A be the sum formed by counting the other's defection as 2 points and one's own as 1 point, and giving weights of 16, 4, and 1 to the preceding three moves in chronological order. 
-    #The choice can be described as defecting only when A equals 1, 6, 7, 17, 22, 23, 26, 29, 30, 31, 33, 38, 39, 45, 49, 54, 55, 58, or 61. 
-    #Thus if all three preceding moves are mutual defection, A = 63 and the rule cooperates.
+    """
+    This class implements an agent which uses the Nydegger strategy from Axelrod's first tournament
+    (Axelrod, 1980). This strategy Plays tit for tat for the first three moves, unless it is the only 
+    one to cooperate on the first move and the only one to defect on the second move, then it defects 
+    on the third move. After the third move, its choice is determined from the 3 preceding outcomes 
+    in the following manner. Let A be the sum formed by counting the other's defection as 2 points and 
+    one's own as 1 point, and giving weights of 16, 4, and 1 to the preceding three moves in chronological order. 
+    The choice can be described as defecting only when A equals 1, 6, 7, 17, 22, 23, 26, 29, 30, 31, 33, 38, 39, 
+    45, 49, 54, 55, 58, or 61.
+    """
     def __init__(self):
         self.institution = None
         self.last_reward = 0
@@ -28,7 +34,17 @@ class CooperationNydeggerAgent(Agent):
 
     @directive_decorator("outcome")
     def outcome(self, message: Message):
-        #status = message.get_payload()["status"]
+        """
+        This method receives the "outcome" message and updates the agent's total rewards.
+
+        Message Handled:
+        - "outcome", sender = institution, 
+                    payload = {'outcome': one of four possible outcomes: mutual_cooperate, mutual_defect, sucker, exploiter,
+                                "reward": the number of points this agent earned the last round}
+
+        Message Sent:
+        - none
+        """
         self.log_data("Outcome: " + str(message.get_payload()))
         self.outcome_history.append(message.get_payload()["outcome"])
         self.total_reward += message.get_payload()["reward"]
@@ -36,8 +52,18 @@ class CooperationNydeggerAgent(Agent):
         self.log_data("Agent (nydegger) Total Reward now: " + str(self.total_reward))
 
 
-    @directive_decorator("decision time", message_schema=["value"], message_callback="make_bid")
+    @directive_decorator("decision_time")
     def item_for_bidding(self, message: Message):
+        """
+        This method receives the decision_time message and determines which action to take using
+        the Nydegger strategy. 
+
+        Message Handled: 
+        - 'decision_time', sender = institution, payload = none 
+
+        Message Sent: 
+        - 'decision', receiver = institution, payload = {"decision": the decision made, either cooperate or defect}
+        """
         self.institution = message.get_sender()
         self.log_message("Agent received request for decision")
         if self.round_number != 0:

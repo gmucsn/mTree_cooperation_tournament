@@ -8,7 +8,11 @@ import random
 
 @directive_enabled_class
 class CooperationJossAgent(Agent):
-    #Joss always defects after a defection, but only cooperates after cooperation 90% of the time
+    """
+    This class implements an agent which uses the Joss strategy from Axelrod's first tournament
+    (Axelrod, 1980). This strategy always defects after the other player defects, but cooperates after
+    the other player cooperates 90% of the time.
+    """
     def __init__(self):
         self.institution = None
         self.last_reward = 0
@@ -23,7 +27,17 @@ class CooperationJossAgent(Agent):
 
     @directive_decorator("outcome")
     def outcome(self, message: Message):
-        #status = message.get_payload()["status"]
+        """
+        This method receives the "outcome" message and updates the agent's total rewards.
+
+        Message Handled:
+        - "outcome", sender = institution, 
+                    payload = {'outcome': one of four possible outcomes: mutual_cooperate, mutual_defect, sucker, exploiter,
+                                "reward": the number of points this agent earned the last round}
+
+        Message Sent:
+        - none
+        """
         self.log_data("Outcome: " + str(message.get_payload()))
         self.outcome_history.append(message.get_payload()["outcome"])
         self.total_reward += message.get_payload()["reward"]
@@ -31,8 +45,18 @@ class CooperationJossAgent(Agent):
         self.log_data("Agent (joss) Total Reward now: " + str(self.total_reward))
 
 
-    @directive_decorator("decision time", message_schema=["value"], message_callback="make_bid")
+    @directive_decorator("decision_time")
     def item_for_bidding(self, message: Message):
+        """
+        This method receives the decision_time message and determines which action to take using
+        the Joss strategy. 
+
+        Message Handled: 
+        - 'decision_time', sender = institution, payload = none 
+
+        Message Sent: 
+        - 'decision', receiver = institution, payload = {"decision": the decision made, either cooperate or defect}
+        """
         self.institution = message.get_sender()
         self.log_message("Agent received request for decision")
         if self.First_round == 1:

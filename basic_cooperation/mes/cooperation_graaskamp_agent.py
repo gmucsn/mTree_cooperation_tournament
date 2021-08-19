@@ -85,6 +85,7 @@ class CooperationGraaskampAgent(Agent):
                         if self.round_number == 56:
                             defection_positions = []
                             for x in range(56):
+                                #TODO: there's a bug that needs to be fixed here (list index out of range)
                                 if self.outcome_history[x] == "mutual_defect" or self.outcome_history[x] == "sucker":
                                     defection_positions.append(x)
                             if len(defection_positions) == 1 and defection_positions[0] == 50:

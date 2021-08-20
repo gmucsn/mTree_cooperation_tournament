@@ -13,7 +13,6 @@ class CooperationInstitution(Institution):
     two different agents and informs them of the results of the round.
     """
     def __init__(self):
-        self.rounds = 200
 
         self.agents = None
 
@@ -104,6 +103,12 @@ class CooperationInstitution(Institution):
                 new_message.set_sender(self.myAddress)  # set the sender of message to this actor
                 new_message.set_directive("decision_time")
                 self.send(agent, new_message)  # receiver_of_message, message
+        else:
+            #we have completed this game
+            new_message = Message()  # declare message
+            new_message.set_sender(self.myAddress)  # set the sender of message to this actor
+            new_message.set_directive("game_completed")
+            self.send(self.environment_address, new_message)  # receiver_of_message, message
     
         
     @directive_decorator("start_game")
@@ -118,5 +123,7 @@ class CooperationInstitution(Institution):
         Message Sent:
         - none
         """
+        self.environment_address = message.get_sender()
         self.agents = message.get_payload()["agents"]
+        self.rounds = 200
         self.next_round()

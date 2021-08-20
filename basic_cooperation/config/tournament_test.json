@@ -1,0 +1,15 @@
+{"mtree_type": "mes_simulation_description",
+   "name":"Cooperation tournament Run",
+   "id": "1",
+   "environment": "cooperation_tournament_environment.CooperationTournamentEnvironment",
+   "institutions": [{"institution": "cooperation_institution.CooperationInstitution"}],
+   "number_of_runs": 1,
+   "agents": [{"agent_name": "cooperation_random_agent.CooperationRandomAgent", "number": 1},
+      {"agent_name": "cooperation_feld_agent.CooperationFeldAgent", "number": 1}, 
+      {"agent_name": "cooperation_tit_for_tat_agent.CooperationTitForTatAgent", "number": 1},
+      {"agent_name": "cooperation_nydegger_agent.CooperationNydeggerAgent", "number": 1}, 
+      {"agent_name": "cooperation_joss_agent.CooperationJossAgent", "number": 1}],
+   "properties": {
+    }
+ }
+

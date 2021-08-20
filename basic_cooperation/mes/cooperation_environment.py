@@ -1,14 +1,12 @@
 from mTree.microeconomic_system.environment import Environment
 from mTree.microeconomic_system.directive_decorators import *
 from mTree.microeconomic_system.message import Message
-from mTree.components.property_types import MTreeBoolProperty, MTreeIntProperty, MTreeRealProperty, MTreeSetProperty
-from mTree.microeconomic_system.property_decorators import *
 import logging
 import random
 
 
 
-@directive_enabled_class#(expected_properties=[agent_endowment, "num_auctions"])
+@directive_enabled_class
 class CooperationEnvironment(Environment):
     """
     This class implements a simple Prisoner's dilemma institution which sets up the institution and agents.

@@ -127,8 +127,8 @@ class CooperationInstitution(Institution):
         self.environment_address = message.get_sender()
         self.agents = message.get_payload()["agents"]
         self.rounds = 200
+        self.agents_pending_initialization = len(self.agents)
         self.initialize_agents()
-        self.next_round()
 
     def initialize_agents(self):
         """
@@ -142,3 +142,9 @@ class CooperationInstitution(Institution):
             new_message.set_sender(self.myAddress)  # set the sender of message to this actor
             new_message.set_directive("init_agent")
             self.send(address, new_message)  # receiver_of_message, message
+
+    @directive_decorator("agent_initialized")
+    def agent_initialized(self, message:Message):
+        self.agents_pending_initialization -= 1
+        if self.agents_pending_initialization == 0:
+            self.next_round()

@@ -19,10 +19,24 @@ class CooperationSimpleAgent(Agent):
 
     @directive_decorator("init_agent")
     def init_agent(self, message: Message):
+        """
+        This method initializes the agent's variables and replies to the institution once it has been setup
+
+        Message Handled: 
+        - "init_agent", sender = institution, payload = none
+
+        Message Sent: 
+        - "agent_initialized", receiver = institution, payload = none
+        """
         self.institution = None
         self.total_reward = 0
         self.choice_history = []
         self.outcome_history = []
+        #send response message
+        new_message = Message()  # declare message
+        new_message.set_sender(self.myAddress)  # set the sender of message to this actor
+        new_message.set_directive("agent_initialized")
+        self.send(message.get_sender(), new_message)
 
     @directive_decorator("outcome")
     def outcome(self, message: Message):

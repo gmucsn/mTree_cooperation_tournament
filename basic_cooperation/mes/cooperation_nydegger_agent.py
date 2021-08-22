@@ -8,6 +8,7 @@ import random
 
 @directive_enabled_class
 class CooperationNydeggerAgent(Agent):
+    #nydegger agent does not work correctly presently
     """
     This class implements an agent which uses the Nydegger strategy from Axelrod's first tournament
     (Axelrod, 1980). This strategy Plays tit for tat for the first three moves, unless it is the only 
@@ -30,6 +31,15 @@ class CooperationNydeggerAgent(Agent):
 
     @directive_decorator("init_agent")
     def init_agent(self, message: Message):
+        """
+        This method initializes the agent's variables and replies to the institution once it has been setup
+
+        Message Handled: 
+        - "init_agent", sender = institution, payload = none
+
+        Message Sent: 
+        - "agent_initialized", receiver = institution, payload = none
+        """
         self.institution = None
         self.last_reward = 0
         self.total_reward = 0
@@ -38,6 +48,11 @@ class CooperationNydeggerAgent(Agent):
         self.round_number = 1
         self.decision_list = [1, 6, 7, 17, 22, 23, 26, 29, 30, 31, 33, 38, 39, 45, 49, 54, 55, 58, 61]
         self.values_list = [0, 0, 0]
+        #send response message
+        new_message = Message()  # declare message
+        new_message.set_sender(self.myAddress)  # set the sender of message to this actor
+        new_message.set_directive("agent_initialized")
+        self.send(message.get_sender(), new_message)
 
     @directive_decorator("outcome")
     def outcome(self, message: Message):

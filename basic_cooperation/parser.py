@@ -1,6 +1,6 @@
 
 
-path1 = "./logs/2021_08_22-11_05_21_PM-experiment.data"
+path1 = "./logs/2021_08_22-11_46_57_PM-experiment.data"
 experiment_log = open(path1, "r")
 
 log_data = experiment_log.readlines()  #each line turns into str

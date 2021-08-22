@@ -19,7 +19,10 @@ class CooperationRandomAgent(Agent):
 
     @directive_decorator("init_agent")
     def init_agent(self, message: Message):
-        pass
+        self.institution = None
+        self.total_reward = 0
+        self.choice_history = []
+        self.outcome_history = []
 
     @directive_decorator("outcome")
     def outcome(self, message: Message):

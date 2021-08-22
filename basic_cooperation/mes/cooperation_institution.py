@@ -105,6 +105,7 @@ class CooperationInstitution(Institution):
                 self.send(agent, new_message)  # receiver_of_message, message
         else:
             #we have completed this game
+            self.log_data("game completed")
             new_message = Message()  # declare message
             new_message.set_sender(self.myAddress)  # set the sender of message to this actor
             new_message.set_directive("game_completed")
@@ -126,4 +127,18 @@ class CooperationInstitution(Institution):
         self.environment_address = message.get_sender()
         self.agents = message.get_payload()["agents"]
         self.rounds = 200
+        self.initialize_agents()
         self.next_round()
+
+    def initialize_agents(self):
+        """
+        This method sends the initialize agents message to the agents.
+
+        Message Sent:
+        - "init_agent", receiver = agent, payload = none
+        """
+        for address in self.agents:
+            new_message = Message()  # declare message
+            new_message.set_sender(self.myAddress)  # set the sender of message to this actor
+            new_message.set_directive("init_agent")
+            self.send(address, new_message)  # receiver_of_message, message

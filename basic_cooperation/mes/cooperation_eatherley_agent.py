@@ -25,7 +25,13 @@ class CooperationEatherleyAgent(Agent):
 
     @directive_decorator("init_agent")
     def init_agent(self, message: Message):
-        pass
+        self.institution = None
+        self.last_reward = 0
+        self.total_reward = 0
+        self.choice_history = []
+        self.outcome_history = []
+        self.enemy_defections = 0
+        self.First_round = 1
 
     @directive_decorator("outcome")
     def outcome(self, message: Message):

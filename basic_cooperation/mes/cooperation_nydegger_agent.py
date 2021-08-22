@@ -30,7 +30,14 @@ class CooperationNydeggerAgent(Agent):
 
     @directive_decorator("init_agent")
     def init_agent(self, message: Message):
-        pass
+        self.institution = None
+        self.last_reward = 0
+        self.total_reward = 0
+        self.choice_history = []
+        self.outcome_history = []
+        self.round_number = 1
+        self.decision_list = [1, 6, 7, 17, 22, 23, 26, 29, 30, 31, 33, 38, 39, 45, 49, 54, 55, 58, 61]
+        self.values_list = [0, 0, 0]
 
     @directive_decorator("outcome")
     def outcome(self, message: Message):

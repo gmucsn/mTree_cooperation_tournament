@@ -45,6 +45,9 @@ class CooperationTournamentEnvironment(Environment):
         This method creates a list of agent address pairs from all the given agents so that each
         agent plays one round against every other agent.
         """
+        #TODO: need to find a way for agents to play against themselves
+        #this will require adding two of each different agent and then using short names to determine
+        #the pairing of agents
         agent_addresses = self.address_book.select_addresses({"address_type": "agent"})
         for x in range(len(agent_addresses)):
             for y in range(x + 1, len(agent_addresses)):

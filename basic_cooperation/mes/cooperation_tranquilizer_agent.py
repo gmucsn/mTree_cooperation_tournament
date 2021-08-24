@@ -15,14 +15,7 @@ class CooperationTranquilizerAgent(Agent):
     of at least 2.25 points per move it will never defect twice in succession and it will not defect more than ¼ of the time. 
     """
     def __init__(self):
-        self.institution = None
-        self.last_reward = 0
-        self.total_reward = 0
-        self.choice_history = []
-        self.outcome_history = []
-        self.First_round = 1
-        self.average_score = 0
-        self.defections = 0
+        pass
 
     @directive_decorator("init_agent")
     def init_agent(self, message: Message):

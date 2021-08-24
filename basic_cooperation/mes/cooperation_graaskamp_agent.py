@@ -16,13 +16,7 @@ class CooperationGraaskampAgent(Agent):
     plays tit for tat but throws in a defection every 5 to 15 moves.
     """
     def __init__(self):
-        self.institution = None
-        self.last_reward = 0
-        self.total_reward = 0
-        self.choice_history = []
-        self.outcome_history = []
-        self.round_number = 0
-        self.state = "default"
+        pass
 
     @directive_decorator("init_agent")
     def init_agent(self, message: Message):

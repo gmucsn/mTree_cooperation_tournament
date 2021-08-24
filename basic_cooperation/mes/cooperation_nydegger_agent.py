@@ -20,14 +20,7 @@ class CooperationNydeggerAgent(Agent):
     45, 49, 54, 55, 58, or 61.
     """
     def __init__(self):
-        self.institution = None
-        self.last_reward = 0
-        self.total_reward = 0
-        self.choice_history = []
-        self.outcome_history = []
-        self.round_number = 1
-        self.decision_list = [1, 6, 7, 17, 22, 23, 26, 29, 30, 31, 33, 38, 39, 45, 49, 54, 55, 58, 61]
-        self.values_list = [0, 0, 0]
+        pass
 
     @directive_decorator("init_agent")
     def init_agent(self, message: Message):
@@ -123,10 +116,8 @@ class CooperationNydeggerAgent(Agent):
                 if x == -3:
                     self.values_list[x] *= 16
             value_total = self.values_list[0] + self.values_list[1] + self.values_list[2]
-            for x in self.decision_list:
-                if value_total == x:
-                    action_decision = "defect"
-                    break
+            if value_total in self.values_list:
+                action_decision = "defect"
             else:
                 action_decision = "cooperate"
         new_message = Message()  # declare message

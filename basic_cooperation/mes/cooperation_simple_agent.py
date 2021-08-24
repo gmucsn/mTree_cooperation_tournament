@@ -12,10 +12,7 @@ class CooperationSimpleAgent(Agent):
     This class implements an agent for a prisoner's dilemma simulation which always cooperates.
     """
     def __init__(self):
-        self.institution = None
-        self.total_reward = 0
-        self.choice_history = []
-        self.outcome_history = []
+        pass
 
     @directive_decorator("init_agent")
     def init_agent(self, message: Message):

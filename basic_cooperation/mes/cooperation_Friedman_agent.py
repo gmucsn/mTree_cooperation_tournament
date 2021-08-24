@@ -13,14 +13,8 @@ class CooperationFriedmanAgent(Agent):
     (Axelrod, 1980). This strategy cooperates every round until the other player defects, and then
     it defects for the rest of the game.
     """
-    #Friedman cooperates until a defection, then defects for the rest of the game
     def __init__(self):
-        self.institution = None
-        self.last_reward = 0
-        self.total_reward = 0
-        self.choice_history = []
-        self.outcome_history = []
-        self.Defection = 0
+        pass
 
     @directive_decorator("init_agent")
     def init_agent(self, message: Message):

@@ -14,12 +14,7 @@ class CooperationJossAgent(Agent):
     the other player cooperates 90% of the time.
     """
     def __init__(self):
-        self.institution = None
-        self.last_reward = 0
-        self.total_reward = 0
-        self.choice_history = []
-        self.outcome_history = []
-        self.First_round = 1
+        pass
 
     @directive_decorator("init_agent")
     def init_agent(self, message: Message):

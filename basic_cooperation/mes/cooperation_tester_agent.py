@@ -15,14 +15,7 @@ class CooperationTesterAgent(Agent):
     while keeping the ratio of defections to total moves under .5.
     """
     def __init__(self):
-        self.institution = None
-        self.last_reward = 0
-        self.total_reward = 0
-        self.choice_history = []
-        self.outcome_history = []
-        self.state = 0
-        self.turn_one = 1
-        self.defections = 0
+        pass
 
     @directive_decorator("init_agent")
     def init_agent(self, message: Message):

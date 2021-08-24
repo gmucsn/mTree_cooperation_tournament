@@ -15,13 +15,7 @@ class CooperationFeldAgent(Agent):
     50% by the end of the game (after 200 rounds).
     """
     def __init__(self):
-        self.institution = None
-        self.last_reward = 0
-        self.total_reward = 0
-        self.choice_history = []
-        self.outcome_history = []
-        self.First_round = 1
-        self.defect_chance = 0
+        pass
 
     @directive_decorator("init_agent")
     def init_agent(self, message: Message):

@@ -55,7 +55,7 @@ class CooperationRandomAgent(Agent):
 
 
     @directive_decorator("decision_time")
-    def item_for_bidding(self, message: Message):
+    def decision_time(self, message: Message):
         """
         This method receives the decision_time message and randomly determines which action to take. 
 

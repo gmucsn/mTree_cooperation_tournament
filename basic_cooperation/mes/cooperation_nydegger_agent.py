@@ -68,7 +68,7 @@ class CooperationNydeggerAgent(Agent):
 
 
     @directive_decorator("decision_time")
-    def item_for_bidding(self, message: Message):
+    def decision_time(self, message: Message):
         """
         This method receives the decision_time message and determines which action to take using
         the Nydegger strategy. 
@@ -111,6 +111,7 @@ class CooperationNydeggerAgent(Agent):
                     self.outcome_history[x] = 2
                 if self.outcome_history[x] == "exploiter":
                     self.values_list[x] = 1
+
                 if x == -2:
                     self.values_list[x] *= 4
                 if x == -3:

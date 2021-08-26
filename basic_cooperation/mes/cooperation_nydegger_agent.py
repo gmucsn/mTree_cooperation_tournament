@@ -116,7 +116,7 @@ class CooperationNydeggerAgent(Agent):
                 if x == -3:
                     self.values_list[x] *= 16
             value_total = self.values_list[0] + self.values_list[1] + self.values_list[2]
-            if value_total in self.values_list:
+            if value_total in self.decision_list:
                 action_decision = "defect"
             else:
                 action_decision = "cooperate"

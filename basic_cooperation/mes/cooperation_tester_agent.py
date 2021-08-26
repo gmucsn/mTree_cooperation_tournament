@@ -34,7 +34,7 @@ class CooperationTesterAgent(Agent):
         self.choice_history = []
         self.outcome_history = []
         self.state = 0
-        self.turn_one = 1
+        self.turn_one = True
         self.defections = 0
         #send response message
         new_message = Message()  # declare message
@@ -78,9 +78,9 @@ class CooperationTesterAgent(Agent):
         """
         self.institution = message.get_sender()
         self.log_message("Agent received request for decision")
-        if self.turn_one == 1:
+        if self.turn_one:
             action_decision = "defect"
-            self.turn_one = 0
+            self.turn_one = False
         else: 
             if self.state == 0:
                 if (self.defections + 1) / (len(self.outcome_history) + 1) < .5:
